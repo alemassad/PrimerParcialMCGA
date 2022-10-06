@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
+//Costruccion del esquema
 const esquemaProductos = mongoose.Schema({
-    
+    id: {
+        type: mongoose.Schema.Types.ObjectId
+    },
     name:{
         type: String,
         required: true,
@@ -23,5 +26,5 @@ const esquemaProductos = mongoose.Schema({
     },
 
 });
-
+//Exporta el esquema
 module.exports = mongoose.model('Products', esquemaProductos);

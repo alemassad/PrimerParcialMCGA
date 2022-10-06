@@ -1,25 +1,23 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-require('dotenv').config();
-const rutaProductos = require('./routes/products'); 
+const router = require('./routes');
 
 const app = express();
-const port = process.env.PORT || 5000;
 
-//middleware
 app.use(express.json());
-app.use('/api', rutaProductos);
+app.use(router);
 
+//GET: para hacer ping al servidor y que devuelva 'OK' en caso que el server y la BD estén levantadas
+app.get('/',(req, res)=>{
+    res.status(200).send('OK');
+})
 
-//routes: ping al server
-app.get('/', (req, res) => {
-    res.send(200, 'OK')
-});
+mongoose.connect(process.env.MONGODB_UR)
+.then(
+    app.listen(()=>{        
+        app.listen(process.env.PORT, () => console.log('Server OK'))
+    })
+)
+.catch((error)=> console.log("Sin conexion" + error))
 
-//Conexion a Mongo
-mongoose
-    .connect(process.env.MONGODB_UR)
-    .then(()=> console.log('Conectado a MongoDB Atlas'))
-    .catch((error) => console.error(error));
-
-app.listen(port, () => console.log('Servidor OK con puerto ', port));
