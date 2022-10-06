@@ -1,24 +1,18 @@
 const express = require('express');
-const router = express.Router();
 
-const {
-    listProducts,
-    searchProduct,
-    deleteProduct,    
-    updateProduct,
-    addProducts
-} = require('../controllers/Products');
+const ruta = express.Router();
+
+const { listadoProductos, buscaProducto, borraProducto, editaProducto, agregaProducto} = require('../controllers/Products');
 
 
+ruta.get('/', (req, res) => listadoProductos(req, res));
 
-router.get('/', (req, res) => listProducts(req, res));
+ruta.get('/:name', (req, res) => buscaProducto(req, res));
 
-router.get('/:name', (req, res) => searchProduct(req, res));
+ruta.post("/add", (req, res) => agregaProducto(req, res));
 
-router.post("/add", (req, res) => addProducts(req, res));
+ruta.delete("/delete/:id", (req, res) => borraProducto(req, res));
 
-router.delete("/delete/:id", (req, res) => deleteProduct(req, res));
+ruta.put("/update/:id", (req, res) => editaProducto(req, res));
 
-router.put("/update/:id", (req, res) => updateProduct(req, res));
-
-module.exports = router;
+module.exports = ruta;

@@ -1,16 +1,14 @@
-const products = require('../models/products');
+const productos = require('../models/products');
 
-
-const listProducts = (req, res) =>{
-    products.find() //Obtenemos todos los productos
+const listadoProductos = (req, res) =>{
+    productos.find() //Obtenemos todos los productos
     .then(data => res.status(200).json(data))
     .catch(error => res.status(500).json({mensaje: error}));
 }
 
-
-const searchProduct = (req, res) =>{
+const buscaProducto = (req, res) =>{
     const name = req.params.name
-    products.findOne({name: name})//Bsca producto por nombre
+    productos.findOne({name: name})//Busca producto por nombre
     .then(data => {
         if(!data){
             return res.status(404).json({mensaje: "Producto no encontrado"});
@@ -20,18 +18,16 @@ const searchProduct = (req, res) =>{
     .catch(error => res.status(500).json({mensaje: error}));
 }
 
-
-const addProducts = (req, res) => {
-    const newProducts = new products(req.body);//Agrega un producto
-    newProducts.save()
+const agregaProducto = (req, res) => {
+    const nuevoProducto = new productos(req.body);//Agrega un producto
+    nuevoProducto.save()
     .then(data => res.status(201).json({mensaje: `Producto ${data.name} agregado`, data}))
     .catch(() => res.status(500).json({mensaje: "Error"}));
 }
 
-
-const deleteProduct = (req, res) => {
+const borraProducto = (req, res) => {
     const id = req.params.id;
-    products.findByIdAndDelete(id)//Elimina un producto por id
+    productos.findByIdAndDelete(id)//Elimina un producto por id
     .then(data => {
         if (!data) {
             return res.status(404).json({mensaje: "Producto no encontrado"});
@@ -41,10 +37,9 @@ const deleteProduct = (req, res) => {
     .catch(error => res.status(500).json({error}));
 }
 
-
-const updateProduct = (req, res) => {
+const editaProducto = (req, res) => {
     const id = req.params.id;
-    products.findByIdAndUpdate(id, req.body)//edita un producto por id
+    productos.findByIdAndUpdate(id, req.body)//edita un producto por id
     .then(data => {
         if(!data){
             return res.status(404).json({mensaje: "Producto no encontrado"})
@@ -53,5 +48,6 @@ const updateProduct = (req, res) => {
     })
     .catch(error => res.status(500).json({error}));
 }
+
 //Exporta los endpoint
-module.exports = { listProducts, searchProduct, addProducts, deleteProduct, updateProduct };
+module.exports = { listadoProductos, buscaProducto, agregaProducto, borraProducto, editaProducto };

@@ -27,4 +27,4 @@ const esquemaProductos = mongoose.Schema({
 
 });
 //Exporta el esquema
-module.exports = mongoose.model('Products', esquemaProductos);
+module.exports = mongoose.model('Productos', esquemaProductos);

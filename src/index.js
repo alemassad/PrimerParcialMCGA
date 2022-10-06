@@ -1,16 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const router = require('./routes');
-
+const ruta = require('./routes');
 const app = express();
 
 app.use(express.json());
-app.use(router);
+app.use(ruta);
 
-//GET: para hacer ping al servidor y que devuelva 'OK' en caso que el server y la BD estén levantadas
 app.get('/',(req, res)=>{
-    res.status(200).send('OK');
+    res.status(200).send('OK');// conexion con DB
 })
 
 mongoose.connect(process.env.MONGODB_UR)
@@ -19,5 +17,5 @@ mongoose.connect(process.env.MONGODB_UR)
         app.listen(process.env.PORT, () => console.log('Server OK'))
     })
 )
-.catch((error)=> console.log("Sin conexion" + error))
+.catch((error)=> console.error(error))
 
